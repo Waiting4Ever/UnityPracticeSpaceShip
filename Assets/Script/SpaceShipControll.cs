@@ -27,19 +27,10 @@ public class SpaceShipControll : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
-            gameObject.transform.position += new Vector3(0.1f, 0, 0);
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+            gameObject.transform.Translate(new Vector3(Input.touches[0].deltaPosition.x * Time.deltaTime, Input.touches[0].deltaPosition.y * Time.deltaTime, 0));
 
-        if (Input.GetKey(KeyCode.LeftArrow))
-            gameObject.transform.position += new Vector3(-0.1f, 0, 0);
-
-        if (Input.GetKey(KeyCode.UpArrow))
-            gameObject.transform.position += new Vector3(0, 0.1f, 0);
-
-        if (Input.GetKey(KeyCode.DownArrow))
-            gameObject.transform.position += new Vector3(0, -0.1f, 0);
-
-        if (Input.GetKey(KeyCode.Space) && isReady)
+        if (isReady)
         {
             GameObject Bullet = ObjectPoolManager.instance.GetObject(PROJECTILE_POOL_NAME, true, firePoint.position, firePoint.rotation);
             if (Bullet == null)
