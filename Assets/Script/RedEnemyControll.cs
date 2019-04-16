@@ -2,9 +2,8 @@
 
 public class RedEnemyControll : MonoBehaviour
 {
-    static int SCORE_VALUE = 90;
-
-    public GameObject explosion;
+    const string EXPLODE_POOL_OBJECT = "explodeObject";
+    const int SCORE_VALUE = 90;
 
     void FixedUpdate()
     {
@@ -19,9 +18,19 @@ public class RedEnemyControll : MonoBehaviour
             if (other.gameObject.CompareTag("Bullet"))
             {
                 GameManager.instance.AddScore(SCORE_VALUE);
-                Instantiate(explosion, gameObject.transform.position, gameObject.transform.rotation);
+                GameObject explodeObject = ObjectPoolManager.instance.GetObject(EXPLODE_POOL_OBJECT, true, gameObject.transform.position, gameObject.transform.rotation);
+                if (explodeObject == null)
+                {
+                    Debug.Log("[RedEnemyControll::OnCollisionEnter2D] explodeObject not enough!!");
+                }
             }
-            Destroy(gameObject);
+            Disable();
         }
+    }
+
+    void Disable()
+    {
+        //Disable the RedEnemy so it can be reused by the Object Pool
+        gameObject.SetActive(false);
     }
 }

@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class SpaceShipControll : MonoBehaviour
 {
+    const string EXPLODE_POOL_OBJECT = "explodeObject";
     const string PROJECTILE_POOL_NAME = "Bullet";
 
     public GameObject bullet;
     public Transform firePoint;
     public float chargeTime = 0.2f;
-    public GameObject explosion;
 
     private bool isReady = true;
     WaitForSeconds shootingInterval;
@@ -62,7 +62,11 @@ public class SpaceShipControll : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("[SpaceShipControll::OnCollisionEnter2D] hit by Enemy");
-            Instantiate(explosion, gameObject.transform.position, gameObject.transform.rotation);
+            GameObject explodeObject = ObjectPoolManager.instance.GetObject(EXPLODE_POOL_OBJECT, true, gameObject.transform.position, gameObject.transform.rotation);
+            if (explodeObject == null)
+            {
+                Debug.Log("[WhiteEnemyControll::OnCollisionEnter2D] explodeObject not enough!!");
+            }
             Destroy(gameObject);
 
             GameManager.instance.gameOverLabel.SetActive(true);

@@ -395,6 +395,12 @@ MonoBehaviour:
   - pooledObject: {fileID: 2148675325198009335, guid: 22a368a2a0dbf304b8c11a0ddeef92f9,
       type: 3}
     maxSize: 11
+  - pooledObject: {fileID: 3311033387010269091, guid: f779d7fc3ada659439240477e85aee83,
+      type: 3}
+    maxSize: 11
+  - pooledObject: {fileID: 1794466251129550778, guid: 855c16b4601a29f4d9867562f2d08ec9,
+      type: 3}
+    maxSize: 5
 --- !u!4 &491485423
 Transform:
   m_ObjectHideFlags: 0

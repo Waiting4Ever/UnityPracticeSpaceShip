@@ -3,14 +3,11 @@ using UnityEngine;
 
 public class GM_SpawnEnemy : MonoBehaviour
 {
+    private const string WHITE_ENEMY_POOL_OBJECT = "WhiteEnemy";
+    private const string RED_ENEMY_POOL_OBJECT = "RedEnemy";
+
     public bool isEnabled = true;
     public float checkRate = 0.5f;
-
-    [Header("WhiteEnemy")]
-    public GameObject whiteEnemyObject;
-
-    [Header("RedEnemy")]
-    public GameObject redEnemyObject;
 
     WaitForSeconds checkDelay;
 
@@ -34,11 +31,19 @@ public class GM_SpawnEnemy : MonoBehaviour
                 case 0:
                 case 1:
                 case 2:
-                    Instantiate(whiteEnemyObject, spawnEnemyPos, transform.rotation);
+                    GameObject whiteEnemy = ObjectPoolManager.instance.GetObject(WHITE_ENEMY_POOL_OBJECT, true, spawnEnemyPos, transform.rotation);
+                    if (whiteEnemy == null)
+                    {
+                        Debug.Log("[GM_SpawnEnemy::SpawnCycle] WhiteEnemy not enough!!");
+                    }
                     break;
                 case 3:
                 default:
-                    Instantiate(redEnemyObject, spawnEnemyPos, transform.rotation);
+                    GameObject redEnemy = ObjectPoolManager.instance.GetObject(RED_ENEMY_POOL_OBJECT, true, spawnEnemyPos, transform.rotation);
+                    if (redEnemy == null)
+                    {
+                        Debug.Log("[GM_SpawnEnemy::SpawnCycle] RedEnemy not enough!!");
+                    }
                     break;
             }
 

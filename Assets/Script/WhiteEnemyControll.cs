@@ -2,9 +2,8 @@
 
 public class WhiteEnemyControll : MonoBehaviour
 {
-    static int SCORE_VALUE = 10;
-
-    public GameObject explosion;
+    const string EXPLODE_POOL_OBJECT = "explodeObject";
+    const int SCORE_VALUE = 10;
 
     void FixedUpdate()
     {
@@ -18,10 +17,20 @@ public class WhiteEnemyControll : MonoBehaviour
             Debug.Log("[WhiteEnemyControll::OnCollisionEnter2D] hit object");
             if (other.gameObject.CompareTag("Bullet"))
             {
-                Instantiate(explosion, gameObject.transform.position, gameObject.transform.rotation);
+                GameObject explodeObject = ObjectPoolManager.instance.GetObject(EXPLODE_POOL_OBJECT, true, gameObject.transform.position, gameObject.transform.rotation);
+                if (explodeObject == null)
+                {
+                    Debug.Log("[WhiteEnemyControll::OnCollisionEnter2D] explodeObject not enough!!");
+                }
                 GameManager.instance.AddScore(SCORE_VALUE);
             }
-            Destroy(gameObject);
+            Disable();
         }
+    }
+
+    void Disable()
+    {
+        //Disable the WhiteEnemy so it can be reused by the Object Pool
+        gameObject.SetActive(false);
     }
 }
